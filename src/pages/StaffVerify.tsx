@@ -62,10 +62,65 @@ export function StaffVerify() {
         }
     };
 
+    const [pin, setPin] = useState('');
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+    const handleLogin = (e: React.FormEvent) => {
+        e.preventDefault();
+        // Simple hardcoded PIN for now. In a real app, this would use a backend auth.
+        if (pin === '010226') {
+            setIsAuthenticated(true);
+            setPin('');
+        } else {
+            alert('Incorrect PIN');
+            setPin('');
+        }
+    };
+
+    if (!isAuthenticated) {
+        return (
+            <div className="flex flex-col items-center justify-center min-h-[60vh] px-4">
+                <motion.div
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    className="max-w-md w-full bg-white/5 border border-white/10 rounded-2xl p-8 backdrop-blur-sm shadow-xl"
+                >
+                    <div className="flex flex-col items-center gap-4 mb-8">
+                        <div className="bg-white/10 p-4 rounded-full">
+                            <ShieldCheck className="w-10 h-10 text-white" />
+                        </div>
+                        <h1 className="text-2xl font-bold text-white">Staff Access</h1>
+                        <p className="text-gray-400 text-center text-sm">Enter security PIN to access the verification portal.</p>
+                    </div>
+
+                    <form onSubmit={handleLogin} className="space-y-6">
+                        <div>
+                            <input
+                                type="password"
+                                value={pin}
+                                onChange={(e) => setPin(e.target.value)}
+                                placeholder="Enter PIN"
+                                maxLength={6}
+                                className="w-full bg-black/40 border border-white/20 rounded-xl px-4 py-4 text-center text-2xl font-mono text-white placeholder:text-gray-600 focus:outline-none focus:border-blue-500 transition-colors tracking-[1em]"
+                                autoFocus
+                            />
+                        </div>
+                        <button
+                            type="submit"
+                            className="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-4 rounded-xl transition-all active:scale-[0.98] shadow-lg shadow-blue-900/20"
+                        >
+                            Unlock Portal
+                        </button>
+                    </form>
+                </motion.div>
+            </div>
+        );
+    }
+
     return (
         <div className="min-h-screen pt-24 px-4 flex flex-col items-center">
             <motion.div
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 className="max-w-md w-full bg-white/5 border border-white/10 rounded-2xl p-8 backdrop-blur-sm"
             >
