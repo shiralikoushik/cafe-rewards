@@ -32,33 +32,40 @@ export function Landing() {
                     >
                         Start Playing <ArrowRight className="w-4 h-4" />
                     </Link>
-                    <button className="px-8 py-3 rounded-lg bg-white/5 border border-white/10 text-white font-medium hover:bg-white/10 transition-colors">
+                    <Link
+                        to="/leaderboard"
+                        className="px-8 py-3 rounded-lg bg-white/5 border border-white/10 text-white font-medium hover:bg-white/10 transition-colors"
+                    >
                         View Leaderboard
-                    </button>
+                    </Link>
                 </div>
             </section>
 
             {/* Game Features / Grid */}
             <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 <GameCard
+                    to="/games/quantum-reflex"
                     icon={Zap}
                     title="Quantum Reflex"
                     desc="Test your reaction time. Blink and you lose."
                     color="bg-blue-500/10 text-blue-400 border-blue-500/20"
                 />
                 <GameCard
+                    to="/games/memo-matrix"
                     icon={Brain}
                     title="MemoMatrix"
                     desc="Pattern recognition at its absolute limit."
                     color="bg-emerald-500/10 text-emerald-400 border-emerald-500/20"
                 />
                 <GameCard
+                    to="/games/precision-tower"
                     icon={Crosshair}
                     title="Precision Tower"
                     desc="Stack it high. One slip is fatal."
                     color="bg-amber-500/10 text-amber-400 border-amber-500/20"
                 />
                 <GameCard
+                    to="/games/void-runner"
                     icon={Box}
                     title="Void Runner"
                     desc="Survive the endless obstacle tunnel."
@@ -69,9 +76,12 @@ export function Landing() {
     );
 }
 
-function GameCard({ icon: Icon, title, desc, color }: { icon: any, title: string, desc: string, color: string }) {
+function GameCard({ to, icon: Icon, title, desc, color }: { to: string, icon: any, title: string, desc: string, color: string }) {
     return (
-        <div className="group relative p-6 rounded-2xl border border-white/5 bg-white/[0.02] hover:bg-white/[0.05] transition-colors overflow-hidden">
+        <Link
+            to={to}
+            className="group relative p-6 rounded-2xl border border-white/5 bg-white/[0.02] hover:bg-white/[0.05] transition-colors overflow-hidden block"
+        >
             <div className={cn("inline-flex p-3 rounded-xl mb-4", color)}>
                 <Icon className="w-6 h-6" />
             </div>
@@ -79,6 +89,6 @@ function GameCard({ icon: Icon, title, desc, color }: { icon: any, title: string
             <p className="text-sm text-gray-400 leading-relaxed">
                 {desc}
             </p>
-        </div>
+        </Link>
     );
 }
