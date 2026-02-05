@@ -235,10 +235,32 @@ export function VoidRunner() {
                 )}
             </div>
 
-            {/* Controls Hint */}
-            <div className="mt-4 flex justify-between text-sm text-gray-500 px-8">
-                <span>← Left</span>
-                <span>Right →</span>
+            {/* Controls */}
+            <div className="mt-4 grid grid-cols-2 gap-4 px-4 h-24">
+                <button
+                    className="bg-white/10 active:bg-white/20 rounded-xl border border-white/10 flex items-center justify-center text-gray-300 font-bold text-lg active:scale-95 transition-all touch-manipulation"
+                    onClick={() => {
+                        if (gameState.status !== 'playing') return;
+                        setGameState(prev => ({
+                            ...prev,
+                            playerLane: Math.max(0, prev.playerLane - 1)
+                        }));
+                    }}
+                >
+                    ← LEFT
+                </button>
+                <button
+                    className="bg-white/10 active:bg-white/20 rounded-xl border border-white/10 flex items-center justify-center text-gray-300 font-bold text-lg active:scale-95 transition-all touch-manipulation"
+                    onClick={() => {
+                        if (gameState.status !== 'playing') return;
+                        setGameState(prev => ({
+                            ...prev,
+                            playerLane: Math.min(LANE_COUNT - 1, prev.playerLane + 1)
+                        }));
+                    }}
+                >
+                    RIGHT →
+                </button>
             </div>
         </div>
     );
