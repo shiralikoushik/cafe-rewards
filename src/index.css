@@ -4,7 +4,7 @@
 
 @layer base {
   body {
-    @apply bg-[#0f0f0f] text-gray-100 antialiased overflow-hidden selection:bg-purple-500 selection:text-white;
+    @apply bg-[#0f0f0f] text-gray-100 antialiased overflow-x-hidden selection:bg-purple-500 selection:text-white;
     font-feature-settings: "ss01", "ss02", "cv01", "cv02";
   }
 }
@@ -13,12 +13,15 @@
 ::-webkit-scrollbar {
   width: 8px;
 }
+
 ::-webkit-scrollbar-track {
   @apply bg-transparent;
 }
+
 ::-webkit-scrollbar-thumb {
   @apply bg-gray-700 rounded-full;
 }
+
 ::-webkit-scrollbar-thumb:hover {
   @apply bg-gray-600;
 }
