@@ -96,7 +96,7 @@ export function StaffVerify() {
                                     setStatus('idle');
                                 }}
                                 placeholder="REFLEX-1430-OK"
-                                className="w-full bg-black/40 border border-white/20 rounded-xl px-4 py-4 text-xl font-mono text-white placeholder:text-gray-600 focus:outline-none focus:border-blue-500 uppercase transition-colors"
+                                className="w-full bg-black/40 border border-white/20 rounded-xl px-4 py-4 text-base md:text-xl font-mono text-white placeholder:text-gray-600 focus:outline-none focus:border-blue-500 uppercase transition-colors"
                             />
                             <Search className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 w-5 h-5" />
                         </div>

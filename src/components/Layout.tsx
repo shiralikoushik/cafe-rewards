@@ -1,10 +1,12 @@
 import { Link, Outlet, useLocation } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import { Coffee, Trophy, Home, Gamepad2 } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Coffee, Trophy, Home, Gamepad2, Menu, X } from 'lucide-react';
 import { cn } from '../lib/utils';
+import { useState } from 'react';
 
 export function Layout() {
     const location = useLocation();
+    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
     return (
         <div className="min-h-screen bg-[#0f0f0f] text-gray-100 font-sans selection:bg-purple-500/30">
@@ -15,7 +17,7 @@ export function Layout() {
             <nav className="fixed top-0 w-full z-50 border-b border-white/5 bg-[#0f0f0f]/80 backdrop-blur-md">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex items-center justify-between h-16">
-                        <Link to="/" className="flex items-center gap-2 group">
+                        <Link to="/" className="flex items-center gap-2 group z-50" onClick={() => setIsMobileMenuOpen(false)}>
                             <div className="p-2 rounded-xl bg-purple-500/10 group-hover:bg-purple-500/20 transition-colors">
                                 <Coffee className="w-5 h-5 text-purple-400" />
                             </div>
@@ -24,23 +26,51 @@ export function Layout() {
                             </span>
                         </Link>
 
-                        <div className="flex items-center gap-1">
+                        {/* Desktop Nav */}
+                        <div className="hidden md:flex items-center gap-1">
                             <NavLink to="/" icon={Home} label="Home" active={location.pathname === '/'} />
                             <div className="h-4 w-px bg-white/10 mx-2" />
                             <NavLink to="/games" icon={Gamepad2} label="Games" active={location.pathname.startsWith('/games')} />
                             <NavLink to="/leaderboard" icon={Trophy} label="Rankings" active={location.pathname === '/leaderboard'} />
                         </div>
+
+                        {/* Mobile Menu Toggle */}
+                        <button
+                            className="md:hidden p-2 text-gray-400 hover:text-white"
+                            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                        >
+                            {isMobileMenuOpen ? <X /> : <Menu />}
+                        </button>
                     </div>
                 </div>
+
+                {/* Mobile Nav Overlay */}
+                <AnimatePresence>
+                    {isMobileMenuOpen && (
+                        <motion.div
+                            initial={{ opacity: 0, height: 0 }}
+                            animate={{ opacity: 1, height: 'auto' }}
+                            exit={{ opacity: 0, height: 0 }}
+                            className="md:hidden border-t border-white/10 bg-[#0f0f0f] overflow-hidden"
+                        >
+                            <div className="px-4 py-4 space-y-2">
+                                <MobileNavLink to="/" icon={Home} label="Home" active={location.pathname === '/'} onClick={() => setIsMobileMenuOpen(false)} />
+                                <MobileNavLink to="/games" icon={Gamepad2} label="Games" active={location.pathname.startsWith('/games')} onClick={() => setIsMobileMenuOpen(false)} />
+                                <MobileNavLink to="/leaderboard" icon={Trophy} label="Rankings" active={location.pathname === '/leaderboard'} onClick={() => setIsMobileMenuOpen(false)} />
+                                <div className="h-px bg-white/10 my-2" />
+                                <MobileNavLink to="/staff" icon={Coffee} label="Staff Access" active={location.pathname === '/staff'} onClick={() => setIsMobileMenuOpen(false)} />
+                            </div>
+                        </motion.div>
+                    )}
+                </AnimatePresence>
             </nav>
 
             {/* Main Content */}
-            <main className="relative pt-24 pb-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto min-h-screen flex flex-col">
+            <main className="relative pt-20 pb-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto min-h-[calc(100vh-80px)] flex flex-col">
                 <motion.div
                     key={location.pathname}
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -10 }} // Exit animations require AnimatePresence in App.tsx but simple enter is fine here
                     transition={{ duration: 0.3 }}
                     className="flex-1 flex flex-col"
                 >
@@ -49,7 +79,7 @@ export function Layout() {
             </main>
 
             {/* Footer */}
-            <footer className="border-t border-white/10 mt-20 py-8 text-center text-gray-500 text-sm">
+            <footer className="border-t border-white/10 mt-auto py-8 text-center text-gray-500 text-sm">
                 <p>&copy; 2024 Cafe Rewards. Play responsibly.</p>
                 <div className="mt-2 text-xs">
                     <Link to="/staff" className="text-gray-700 hover:text-gray-500 transition-colors">Staff Access</Link>
@@ -71,6 +101,24 @@ function NavLink({ to, icon: Icon, label, active }: { to: string, icon: any, lab
             )}
         >
             <Icon className="w-4 h-4" />
+            <span>{label}</span>
+        </Link>
+    );
+}
+
+function MobileNavLink({ to, icon: Icon, label, active, onClick }: { to: string, icon: any, label: string, active: boolean, onClick: () => void }) {
+    return (
+        <Link
+            to={to}
+            onClick={onClick}
+            className={cn(
+                "flex items-center gap-3 px-4 py-3 rounded-xl text-base font-medium transition-all duration-200",
+                active
+                    ? "bg-purple-500/10 text-purple-400 border border-purple-500/20"
+                    : "text-gray-400 hover:text-white hover:bg-white/5"
+            )}
+        >
+            <Icon className="w-5 h-5" />
             <span>{label}</span>
         </Link>
     );

@@ -129,9 +129,9 @@ export function QuantumReflex() {
     }, [gameState.status]);
 
     return (
-        <div className="max-w-4xl mx-auto w-full h-[600px] flex flex-col relative select-none">
+        <div className="max-w-4xl mx-auto w-full flex-1 flex flex-col relative select-none touch-none">
             {/* HUD */}
-            <div className="flex justify-between items-center mb-6 p-4 bg-white/5 rounded-xl border border-white/10">
+            <div className="flex justify-between items-center mb-4 p-4 bg-white/5 rounded-xl border border-white/10">
                 <div>
                     <div className="text-xs uppercase text-gray-500 font-bold tracking-wider">Score</div>
                     <div className="text-3xl font-mono text-white">{gameState.score} <span className="text-gray-600">/ {DIFFICULTY.WIN_SCORE}</span></div>
@@ -166,7 +166,7 @@ export function QuantumReflex() {
             {/* Game Field */}
             <div
                 ref={fieldRef}
-                className="flex-1 bg-black/40 rounded-2xl border border-white/10 relative overflow-hidden shadow-inner"
+                className="flex-1 min-h-[50dvh] bg-black/40 rounded-2xl border border-white/10 relative overflow-hidden shadow-inner"
             >
                 {gameState.status === 'idle' && (
                     <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/60 backdrop-blur-sm z-10">
